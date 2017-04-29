@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<canvas id='cavs'></canvas>
+</body>
+</html>
+<script type="text/javascript">
+var canvas = document.getElementById("cavs");
+const WIDTH = window.innerWidth;
+const HEIGHT = window.innerHeight;
+canvas.setAttribute('width', WIDTH);
+canvas.setAttribute('height', HEIGHT);
+var context = canvas.getContext("2d");
+var start =
+{
+    loves: [],
+    DURATION: 30,
+    begin: function()
+    {
+        this.createLove();
+    },
+    createLove: function()
+    {
+        for (var i = 0; i < WIDTH / 34; i++)
+        {
+            var love = new Love();
+            this.loves.push(love);
+        }
+        setInterval(this.drawLove.bind(this), this.DURATION);
+    },
+    drawLove: function()
+    {
+        context.clearRect(0, 0, WIDTH, HEIGHT);
+        for (var key in this.loves)
+        {
+            this.loves[key].draw();
+        }
+    }
+}
+function Love()
+{
+    var me = this;
+    function rand() 
+    {
+        me.attr.scale = Math.random() * 3 + 1;
+        me.attr.x = Math.floor(Math.random() * WIDTH-40);
+        me.attr.y = Math.floor(Math.random() * 100  + HEIGHT - 100);
+        me.attr.ColR = Math.floor(Math.random() * 255);
+        me.attr.ColG = Math.floor(Math.random() * 255);
+        me.attr.ColB = Math.floor(Math.random() * 255);
+        me.attr.alpha = Math.random() * 0.2 + 0.8;
+        me.attr.vector = Math.random() * 4 + 1;
+    }
+    (function(){me.attr = {};rand();} ());
+    me.draw = function()
+    {
+        if (me.attr.alpha < 0.01) rand();
+        x = me.attr.x;
+        y = me.attr.y;
+        scale = 4 * me.attr.scale;
+        context.beginPath();
+        context.bezierCurveTo( x + 2.5*scale, y + 2.5*scale, x + 2.0*scale, y, x, y );
+        context.bezierCurveTo( x - 3.0*scale, y, x - 3.0*scale, y + 3.5*scale,x - 3.0*scale,y + 3.5*scale );
+        context.bezierCurveTo( x - 3.0*scale, y + 5.5*scale, x - 1.0*scale, y + 7.7*scale, x + 2.5*scale, y + 9.5*scale );
+        context.bezierCurveTo( x + 6.0*scale, y + 7.7*scale, x + 8.0*scale, y + 5.5*scale, x + 8.0*scale, y + 3.5*scale );
+        context.bezierCurveTo( x + 8.0*scale, y + 3.5*scale, x + 8.0*scale, y, x + 5.0*scale, y );
+        context.bezierCurveTo( x + 3.5*scale, y, x + 2.5*scale, y + 2.5*scale, x + 2.5*scale, y + 2.5*scale );
+        context.fillStyle = "rgba(" + me.attr.ColR + "," + me.attr.ColG + "," + me.attr.ColB + "," + me.attr.alpha + ")";
+        context.fill();
+        context.lineWidth = 0.5; 
+        context.stroke();
+        me.attr.y -= me.attr.vector;
+        me.attr.alpha -= 4.0 / HEIGHT;
+    }
+}
+window.onload = function()
+{
+    start.begin();
+}
+</script>
