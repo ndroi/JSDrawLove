@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Loves</title>
+<title></title>
 </head>
 <body>
 <canvas id='cavs'></canvas>
@@ -24,7 +24,7 @@ var start =
     },
     createLove: function()
     {
-        for (var i = 0; i < WIDTH / 34; i++)
+        for (var i = 0; i < WIDTH / 59; i++)
         {
             var love = new Love();
             this.loves.push(love);
@@ -45,14 +45,14 @@ function Love()
     var me = this;
     function rand() 
     {
-        me.attr.scale = Math.random() * 3 + 1;
-        me.attr.x = Math.floor(Math.random() * WIDTH-40);
-        me.attr.y = Math.floor(Math.random() * 100  + HEIGHT - 100);
+        me.attr.scale = (Math.random() * 0.8 + 0.3) * WIDTH / 521;
+        me.attr.x = Math.floor(Math.random() * WIDTH - 40);
+        me.attr.y = Math.floor(HEIGHT - Math.random() * 200);
         me.attr.ColR = Math.floor(Math.random() * 255);
         me.attr.ColG = Math.floor(Math.random() * 255);
         me.attr.ColB = Math.floor(Math.random() * 255);
         me.attr.alpha = Math.random() * 0.2 + 0.8;
-        me.attr.vector = Math.random() * 4 + 1;
+        me.attr.vector = Math.random() * 5 + 0.4;
     }
     (function(){me.attr = {};rand();} ());
     me.draw = function()
