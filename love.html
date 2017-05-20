@@ -3,7 +3,7 @@
 <head>
 <title></title>
 </head>
-<body>
+<body style="background-color: black">
 <canvas id="cavs"></canvas>
 </body>
 </html>
@@ -45,22 +45,27 @@ function Love()
     var me = this;
     function rand() 
     {
-        me.attr.scale = (Math.random() * 0.8 + 0.3) * WIDTH / 521;
-        me.attr.x = Math.floor(Math.random() * WIDTH - 40);
-        me.attr.y = Math.floor(HEIGHT - Math.random() * 200);
-        me.attr.ColR = Math.floor(Math.random() * 255);
-        me.attr.ColG = Math.floor(Math.random() * 255);
-        me.attr.ColB = Math.floor(Math.random() * 255);
-        me.attr.alpha = Math.random() * 0.2 + 0.8;
-        me.attr.vector = Math.random() * 5 + 0.4;
+        me.maxScale = (Math.random() * 3.2 + 1.2) * WIDTH / 521;
+        me.curScale = 1.2 * WIDTH / 521;
+        me.x = Math.floor(Math.random() * WIDTH - 40);
+        me.y = Math.floor(HEIGHT - Math.random() * 200);
+        me.ColR = Math.floor(Math.random() * 255);
+        me.ColG = Math.floor(Math.random() * 255);
+        me.ColB = Math.floor(Math.random() * 255);
+        me.alpha = Math.random() * 0.2 + 0.8;
+        me.vector = Math.random() * 5 + 0.4;
     }
-    (function(){me.attr = {};rand();} ());
+    (function(){rand();} ());
     me.draw = function()
     {
-        if (me.attr.alpha < 0.01) rand();
-        x = me.attr.x;
-        y = me.attr.y;
-        scale = 4 * me.attr.scale;
+        if (me.alpha < 0.01) rand();
+        if(me.curScale < me.maxScale) me.curScale += 0.3;
+        x = me.x;
+        y = me.y;
+        scale = me.curScale;
+        context.fillStyle = "rgba(" + me.ColR + "," + me.ColG + "," + me.ColB + "," + me.alpha + ")";
+        context.shadowBlur = 10;
+        context.shadowColor = "white";
         context.beginPath();
         context.bezierCurveTo( x + 2.5*scale, y + 2.5*scale, x + 2.0*scale, y, x, y );
         context.bezierCurveTo( x - 3.0*scale, y, x - 3.0*scale, y + 3.5*scale,x - 3.0*scale,y + 3.5*scale );
@@ -68,12 +73,10 @@ function Love()
         context.bezierCurveTo( x + 6.0*scale, y + 7.7*scale, x + 8.0*scale, y + 5.5*scale, x + 8.0*scale, y + 3.5*scale );
         context.bezierCurveTo( x + 8.0*scale, y + 3.5*scale, x + 8.0*scale, y, x + 5.0*scale, y );
         context.bezierCurveTo( x + 3.5*scale, y, x + 2.5*scale, y + 2.5*scale, x + 2.5*scale, y + 2.5*scale );
-        context.fillStyle = "rgba(" + me.attr.ColR + "," + me.attr.ColG + "," + me.attr.ColB + "," + me.attr.alpha + ")";
         context.fill();
-        context.lineWidth = 0.5; 
-        context.stroke();
-        me.attr.y -= me.attr.vector;
-        me.attr.alpha -= (me.attr.vector / 2.9 * 3.5 / HEIGHT);
+        context.closePath();
+        me.y -= me.vector;
+        me.alpha -= (me.vector / 2.9 * 3.5 / HEIGHT);
     }
 }
 window.onload = function()
