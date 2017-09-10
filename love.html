@@ -4,7 +4,7 @@
 <title></title>
 </head>
 <body style="background-color: black">
-<canvas id="cavs"></canvas>
+<canvas id='cavs' style='position:fixed; z-index:-1;'></canvas>
 </body>
 </html>
 <script type="text/javascript">
@@ -65,7 +65,7 @@ function Love()
         scale = me.curScale;
         context.fillStyle = "rgba(" + me.ColR + "," + me.ColG + "," + me.ColB + "," + me.alpha + ")";
         context.shadowBlur = 10;
-        context.shadowColor = "white";
+        context.shadowColor = "rgb(" + me.ColR + "," + me.ColG + "," + me.ColB + ")";
         context.beginPath();
         context.bezierCurveTo( x + 2.5*scale, y + 2.5*scale, x + 2.0*scale, y, x, y );
         context.bezierCurveTo( x - 3.0*scale, y, x - 3.0*scale, y + 3.5*scale,x - 3.0*scale,y + 3.5*scale );
